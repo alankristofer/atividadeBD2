@@ -86,5 +86,43 @@ WHERE
 v.valorDiaria > 100
 AND c.populacao > 500000
 GROUP BY 
-v.modelo
+v.modelo;
 
+-- QUESTÃO 6
+
+SELECT 
+v.modelo AS ModeloVeiculo,
+v.placa AS PlacaVeiculo,
+AVG(c.valorPago) AS MediaValorRecebido
+FROM
+contrato c
+JOIN 
+veiculo v ON c.idVeiculo  = v.id
+GROUP BY
+MediaValorRecebido DESC;
+
+-- QUESTÃO 7
+
+SELECT 
+v.placa AS Placa,
+v.modelo AS Modelo,
+v.valorDiaria AS ValorDiaria,
+c.multa AS ValorMulta
+FROM 
+contrato c
+JOIN 
+veiculo v ON c.idVeiculo = v.id
+WHERE 
+c.multa = (SELECT MAX(multa) FROM contrato);
+
+-- QUESTÃO 8
+
+SELECT 
+v.modelo AS Modelo,
+v.placa AS Placa
+FROM 
+veiculo v
+LEFT JOIN 
+contrato c ON v.id = c.idVeiculo
+WHERE 
+c.idVeiculo IS NULL;
