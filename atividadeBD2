@@ -1,0 +1,90 @@
+-- QUESTÃO 1
+SELECT 
+c.nome AS NomeCliente,
+t.numero AS Telefone,
+ctr.numero AS NumeroContrato,
+v.modelo AS ModeloVeiculo,
+v.placa AS PlacaVeiculo,
+ctr.dataSaida AS DataSaida
+
+FROM
+ contrato ctr
+ JOIN
+ cliente c ON ctr.codigoCliente = c.codigo
+ JOIN
+ veiculo v ON ctr.idVeiculo = v.id 
+ JOIN
+ telefone t ON c.codigo = t.codigoCliente
+ 
+ORDER BY 
+ctr.dataSaida DESC;
+
+
+-- QUESTÃO 2
+
+SELECT 
+f.cidade AS CidadeFilial,
+c.anoFundacao AS AnoFundacao,
+COUNT(d.id) AS TotalVeiculos
+FROM
+filial f
+join
+cidade c ON f.idCidade = c.codigo
+LEFT JOIN
+veiculo v ON f.codigo = v.codigoFilial
+GROUP BY
+f.codigo, f.cidade, c.anoFundacao;
+
+-- QUESTÃO 3
+
+SELECT 
+c.nome AS NomeCLiente,
+ctr.numero AS NumeroContrato,
+v.placa AS PlacaVeiculo,
+v.modelo AS ModeloVeiculo,
+ctr.dataSaida AS DataSaida,
+ctr.dataDevolucao AS DataDevolucao
+FROM
+contrato ctr
+JOIN 
+cliente c ON ctr.codigoCliente = c.codigo
+JOIN
+veiculo v ON ctr.veiculo = v.id
+where
+c.nome = 'Filomena' 
+AND v.placa = 'MAB0002';
+
+
+-- QUESTÃO 4
+SELECT 
+v.placa AS Placa,
+v.modelo AS Modelo,
+cid.nome AS Cidade,
+f.rua AS RuaFilial
+FROM
+veiculo v
+JOIN
+filial f ON v.codFilial = f.codigo
+JOIN
+cidade cid ON f.idCidade = cid.codigo
+WHERE
+v.numPortas = 4
+AND cid.populacao < 100000;
+
+-- QUESTÃO 5
+
+SELECT 
+v.modelo AS  ModeloVeiculo,
+COUNT(*) AS Quantidade
+FROM
+veiculo v
+JOIN
+filial f ON v.codFilial = f.codigo
+JOIN
+cidade c ON f.idCidade = c.codigo
+WHERE
+v.valorDiaria > 100
+AND c.populacao > 500000
+GROUP BY 
+v.modelo
+
